@@ -1,0 +1,402 @@
+{
+	"info": {
+		"_postman_id": "3fc6d2fd-d29d-49b7-9012-cca287a1e2ef",
+		"name": "Create requests in Postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "137870"
+	},
+	"item": [
+		{
+			"name": "Request Methods",
+			"item": [
+				{
+					"name": "EP_1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const nameMethod = 'Method: GET - ';\r",
+									"\r",
+									"pm.test(nameMethod + 'Check request parameters', function () {\r",
+									"    let params = pm.request.url.query;                          // Getting the request parameters\r",
+									"    pm.expect(params.get('name')).to.be.a('string');            // Checking that the 'name' parameter is a string\r",
+									"    pm.expect(parseInt(params.get('age'))).to.be.a('number');   // Checking that the 'age' parameter is a number\r",
+									"});\r",
+									"\r",
+									"pm.test(nameMethod + `Response status code is 200`, function () {\r",
+									"    pm.response.to.have.status(200);    // Checking that the response status code is 200\r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 200) {\r",
+									"\r",
+									"    pm.test(nameMethod + `Response Content-Type is 'application/json'`, function () {\r",
+									"        pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');  // Checking that the response Content-Type header includes 'application/json'\r",
+									"    });\r",
+									"\r",
+									"    let jsonData = pm.response.json();  // Getting the JSON data from the response\r",
+									"\r",
+									"    pm.test(nameMethod + `The array in the response is equal to [ 'str', 'str' ]`, function () {\r",
+									"        pm.expect(jsonData).to.be.an('array');      // Checking that the response data is an array\r",
+									"        pm.expect(jsonData).to.have.lengthOf(2);    // Checking that the array has a length of 2\r",
+									"        pm.expect(jsonData[0]).to.be.a('string');   // Checking that the first element of the array is a string\r",
+									"        pm.expect(jsonData[1]).to.be.a('string');   // Checking that the second element of the array is a string\r",
+									"    });\r",
+									"\r",
+									"    pm.test(nameMethod + 'Check for empty values in an array', function () {\r",
+									"        for (let i = 0; i < jsonData.length; i++) {     // Checking that each element of the array is not empty\r",
+									"            pm.expect(jsonData[i]).to.not.be.empty;\r",
+									"        }\r",
+									"    });\r",
+									"\r",
+									"} else {\r",
+									"\r",
+									"    console.log(nameMethod + \"Status code is not equal to expected value 200.\");\r",
+									"\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://162.55.220.72:5007/get_method?name=Mark&age=25",
+							"protocol": "http",
+							"host": [
+								"162",
+								"55",
+								"220",
+								"72"
+							],
+							"port": "5007",
+							"path": [
+								"get_method"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Mark",
+									"description": "str"
+								},
+								{
+									"key": "age",
+									"value": "25",
+									"description": "int"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EP_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const reqName = 'EP_2 - ';\r",
+									"\r",
+									"let requestData = pm.request;\r",
+									"let responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(reqName + `step - 1 -` + `Check if mode is formdata`, function () {\r",
+									"    pm.expect(requestData.body.mode).to.eql(\"formdata\");\r",
+									"});\r",
+									"\r",
+									"pm.test(reqName + `step - 2 -` + `Check formdata values`, function () {\r",
+									"    let formData = requestData.body.formdata.json();\r",
+									"    pm.expect(formData).to.not.be.undefined;    // Checking that formData exists\r",
+									"    pm.expect(formData).to.not.be.empty;        // Checking that formData is not an empty object\r",
+									"});\r",
+									"\r",
+									"pm.test(reqName + `step - 3 -` + `Response status code is 200`, function () {\r",
+									"    pm.response.to.have.status(200);    // Checking that the response status code is 200\r",
+									"});\r",
+									"\r",
+									"pm.test(reqName + `step - 4 -` + `Check response properties`, function () {\r",
+									"\r",
+									"    pm.expect(responseData).to.not.be.undefined;    // Checking that responseData exists\r",
+									"    pm.expect(responseData).to.not.be.empty;        // Checking that responseData is not an empty object\r",
+									"   \r",
+									"    let  expectedTypes = {\r",
+									"        \"name\": \"string\",\r",
+									"        \"age\": \"string\",\r",
+									"        \"salary\": \"number\",\r",
+									"        \"family\": {\r",
+									"            \"children\": \"array\",\r",
+									"            \"u_salary_1_5_year\": \"number\"\r",
+									"        }\r",
+									"    };\r",
+									"\r",
+									"    let expectedTypes2 = {\r",
+									"    \"age\": \"25\",\r",
+									"    \"family\": {\r",
+									"        \"children\": [\r",
+									"            [\"Alex\", 24],\r",
+									"            [\"Kate\", 12]\r",
+									"        ],\r",
+									"        \"u_salary_1_5_year\": 50000\r",
+									"    },\r",
+									"    \"name\": \"Mark\",\r",
+									"    \"salary\": 12500\r",
+									"    };\r",
+									"\r",
+									"    pm.expect(responseData).to.eql(expectedTypes2);\r",
+									"});\r",
+									"/**\r",
+									" * {\r",
+									" *  \"name\": \"name\",\r",
+									" *  \"age\": \"age\",\r",
+									" *  \"salary\": \"salary\",\r",
+									" *  \"family\": {\r",
+									" *    \"children\": [ [ \"Alex\", 24 ], [ \"Kate\", 12 ] ],\r",
+									" *    \"u_salary_1_5_year\": salary * 4\r",
+									" *  }\r",
+									" * }\r",
+									" */\r",
+									"pm.test(\"Проверка наличия ключей\", function () {\r",
+									"  pm.expect(responseData).to.have.property('age');\r",
+									"  pm.expect(responseData).to.have.property('family').that.is.an('object');\r",
+									"  pm.expect(responseData.family).to.have.property('children').that.is.an('array');\r",
+									"  pm.expect(responseData.family).to.have.property('u_salary_1_5_year');\r",
+									"  pm.expect(responseData).to.have.property('name');\r",
+									"  pm.expect(responseData).to.have.property('salary');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Mark",
+									"type": "text"
+								},
+								{
+									"key": "age",
+									"value": "25",
+									"type": "text"
+								},
+								{
+									"key": "salary",
+									"value": "12500",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://162.55.220.72:5007/user_info_3",
+							"protocol": "http",
+							"host": [
+								"162",
+								"55",
+								"220",
+								"72"
+							],
+							"port": "5007",
+							"path": [
+								"user_info_3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EP_3",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://162.55.220.72:5007/object_info_1?name=Mark&age=25&weight=45",
+							"protocol": "http",
+							"host": [
+								"162",
+								"55",
+								"220",
+								"72"
+							],
+							"port": "5007",
+							"path": [
+								"object_info_1"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Mark"
+								},
+								{
+									"key": "age",
+									"value": "25"
+								},
+								{
+									"key": "weight",
+									"value": "45"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EP_4",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://162.55.220.72:5007/object_info_2?name=Mark&age=25&salary=12500",
+							"protocol": "http",
+							"host": [
+								"162",
+								"55",
+								"220",
+								"72"
+							],
+							"port": "5007",
+							"path": [
+								"object_info_2"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Mark"
+								},
+								{
+									"key": "age",
+									"value": "25"
+								},
+								{
+									"key": "salary",
+									"value": "12500"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EP_5",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://162.55.220.72:5007/object_info_3?name=Mark&age=25&salary=12500",
+							"protocol": "http",
+							"host": [
+								"162",
+								"55",
+								"220",
+								"72"
+							],
+							"port": "5007",
+							"path": [
+								"object_info_3"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Mark"
+								},
+								{
+									"key": "age",
+									"value": "25"
+								},
+								{
+									"key": "salary",
+									"value": "12500"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EP_6",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://162.55.220.72:5005/object_info_4?name=Mark&age=25&salary=12500",
+							"protocol": "http",
+							"host": [
+								"162",
+								"55",
+								"220",
+								"72"
+							],
+							"port": "5005",
+							"path": [
+								"object_info_4"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Mark"
+								},
+								{
+									"key": "age",
+									"value": "25"
+								},
+								{
+									"key": "salary",
+									"value": "12500"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EP_7",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://162.55.220.72:5007/user_info_2?name=Mark&age=25&salary=12500",
+							"protocol": "http",
+							"host": [
+								"162",
+								"55",
+								"220",
+								"72"
+							],
+							"port": "5007",
+							"path": [
+								"user_info_2"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Mark"
+								},
+								{
+									"key": "age",
+									"value": "25"
+								},
+								{
+									"key": "salary",
+									"value": "12500"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
