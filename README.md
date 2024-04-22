@@ -576,7 +576,7 @@ pm.test(`${reqName} Step - 2 - Response matches the expected response`, function
 <details>
 <summary><a><b>📋 Solution</b></a></summary>
 
-```http request
+```url
 http://162.55.220.72:5007/user_info_2
 ```
 **Body:** `form-data`
