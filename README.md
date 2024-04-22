@@ -32,7 +32,7 @@ http://162.55.220.72:5007/get_method?name=Mark&age=25
 
 **Response:**
 
-```json
+```json5
 [ "Mark", "25" ]
 ```
 
@@ -40,35 +40,26 @@ http://162.55.220.72:5007/get_method?name=Mark&age=25
 <summary><a><b>📊 Tests</b></a></summary>
 
 ```js
-const testName = 'EP_1 -';
+const reqName = 'EP_1 - ';
 const reqData = pm.request.url.query;     // Getting the request parameters
 const responseData = pm.response.json();  // Getting the JSON data from the response
 
-pm.test(`${testName} Step - 1 - Check request parameters`, function () {
-  pm.expect(reqData.get('name')).to.be.a('string');            // Checking that the 'name' parameter is a string
-  pm.expect(parseInt(reqData.get('age'))).to.be.a('number');   // Checking that the 'age' parameter is a number
+pm.test(`${reqName} Step - 1 - Response status code is 200`, function () {
+  pm.response.to.have.status(200);        // Checking that the response status code is 200
 });
 
-pm.test(`${testName} Step - 2 - Response status code is 200`, function () {
-  pm.response.to.have.status(200);    // Checking that the response status code is 200
-});
+pm.test(`${reqName} Step - 2 - Response matches the expected response`, function () {
 
-pm.test(`${testName} Step - 3 - The array in the response is equal to [ 'str', 'str' ]`, function () {
-  pm.expect(responseData).to.be.an('array');      // Checking that the response data is an array
-  pm.expect(responseData).to.have.lengthOf(2);    // Checking that the array has a length of 2
-  pm.expect(responseData[0]).to.be.a('string');   // Checking that the first element of the array is a string
-  pm.expect(responseData[1]).to.be.a('string');   // Checking that the second element of the array is a string
-});
+  let age = String(reqData.find(param => param.key === "age").value);
+  let name = String(reqData.find(param => param.key === "name").value);
 
-pm.test(`${testName} Step - 4 - Check for empty values in an array`, function () {
-  for (let i = 0; i < responseData.length; i++) {     // Checking that each element of the array is not empty
-    pm.expect(responseData[i]).to.not.be.empty;
-  }
+  let expectedResponse = [ name, age ];
+
+  pm.expect(responseData).to.eql(expectedResponse);
 });
 ```
 </details>
 </details>
-
 
 <hr>
 
@@ -81,14 +72,14 @@ pm.test(`${testName} Step - 4 - Check for empty values in an array`, function ()
 
 **Response:**
 
-```json
+```json5
 {
-  "name": "name",
-  "age": "age",
-  "salary": "salary",
+  "name": "name",                                   // name 
+  "age": "age",                                     // age 
+  "salary": "salary",                               // salary
   "family": {
     "children": [ [ "Alex", 24 ], [ "Kate", 12 ] ],
-    "u_salary_1_5_year": salary * 4
+    "u_salary_1_5_year": "u_salary_1_5_year"        // salary * 4
   }
 }
 ```
@@ -209,12 +200,12 @@ pm.test(`${testName} 7 - Checking for required expected keys`, function () {
 
 **Response:**
 
-```json
+```json5
 {
-    "name": name,
-    "age": age,
-    "daily_food": weight * 0.012,
-    "daily_sleep": weight * 2.5
+    "name": "name",               // name
+    "age": "age",                 // age
+    "daily_food": "daily_food",   // weight * 0.012
+    "daily_sleep": "daily_sleep"  // weight * 2.5
 }
 ```
 
@@ -285,17 +276,17 @@ pm.test(`${testName} Step - 2 - Response matches the expected response`, functio
 **Request <u>url params</u>:** `name: str, age: int, salary: int`
 
 **Response:**
-```json
+```json5
 {
-  "start_qa_salary": salary,
-  "qa_salary_after_6_months": salary * 2,
-  "qa_salary_after_12_months": salary * 2.7,
-  "qa_salary_after_1.5_year": salary * 3.3,
-  "qa_salary_after_3.5_years": salary * 3.8,
+  "start_qa_salary": "start_qa_salary",                       // salary,
+  "qa_salary_after_6_months": "qa_salary_after_6_months",     // salary * 2
+  "qa_salary_after_12_months": "qa_salary_after_12_months",   // salary * 2.7
+  "qa_salary_after_1.5_year": "qa_salary_after_1.5_year",     // salary * 3.3
+  "qa_salary_after_3.5_years": "qa_salary_after_3.5_years",   // salary * 3.8
   "person": {
-    "u_name": [user_name, salary, age],
-    "u_age": age,
-    "u_salary_5_years": salary * 4.2
+    "u_name": ["user_name", "salary", "age"],                 // user_name, salary, age
+    "u_age": "age",                                           // user_name, salary, age
+    "u_salary_5_years": "u_salary_5_years",                   // salary * 4.2
   }
 }
 ```
@@ -314,7 +305,7 @@ Query Params
 ```
 
 **Response:**
-```json
+```json5
 {
   "person": {
     "u_age": 25,
@@ -391,18 +382,18 @@ pm.test(`${reqName} Step - 2 - Response matches the expected response`, function
 **Request <u>url params</u>:** `name: str, age: int, salary: int`
 
 **Response:**
-```json
+```json5
 {
-  "name": name,
-  "age": age,
-  "salary": salary,
+  "name": "name",                             // name
+  "age": "age",                               // age
+  "salary": "salary",                         // salary
   "family": {
     "children": [["Alex", 24], ["Kate", 12]],
     "pets": {
       "cat": { "name": "Sunny", "age": 3 },
       "dog": { "name": "Luky",  "age": 4 }
     },
-    "u_salary_1_5_year": salary * 4
+    "u_salary_1_5_year": "u_salary_1_5_year"  // salary * 4
   }
 }
 ```
@@ -421,7 +412,7 @@ Query Params
 ```
 
 **Response:**
-```json
+```json5
 {
   "age": "25",
   "family": {
@@ -490,11 +481,11 @@ pm.test(`${reqName} Step - 2 - Response matches the expected response`, function
 **Request <u>url params</u>:** `name: str, age: int, salary: int`
 
 **Response:**
-```json
+```json5
 {
-  "name": name,
-  "age": int(age),
-  "salary": [salary, str(salary * 2), str(salary * 3)]
+  "name": "name",                               // name
+  "age": "age",                                 // int(age)
+  "salary": ["salary", "salary_1", "salary_2"]  // salary, salary_1 = str(salary * 2), salary_2 = str(salary * 3)
 }
 ```
 
@@ -512,7 +503,7 @@ Query Params
 ```
 
 **Response:**
-```json
+```json5
 {
   "age": 25,
   "name": "Mark",
@@ -544,11 +535,7 @@ pm.test(`${reqName} Step - 2 - Response matches the expected response`, function
     let expectedResponse = {
         "age": age,
         "name": name,
-        "salary": [
-            salary,
-            salary_prop_1,
-            salary_prop_2
-        ]
+        "salary": [ salary, salary_prop_1, salary_prop_2 ]
     };
 
     pm.expect(responseData).to.eql(expectedResponse);
@@ -568,17 +555,17 @@ pm.test(`${reqName} Step - 2 - Response matches the expected response`, function
 
 **Response:**
 
-```json
+```json5
 {
-  "start_qa_salary": salary,
-  "qa_salary_after_6_months": salary * 2,
-  "qa_salary_after_12_months": salary * 2.7,
-  "qa_salary_after_1.5_year": salary * 3.3,
-  "qa_salary_after_3.5_years": salary * 3.8,
+  "start_qa_salary": "start_qa_salary",                       // salary,
+  "qa_salary_after_6_months": "qa_salary_after_6_months",     // salary * 2
+  "qa_salary_after_12_months": "qa_salary_after_12_months",   // salary * 2.7
+  "qa_salary_after_1.5_year": "qa_salary_after_1.5_year",     // salary * 3.3
+  "qa_salary_after_3.5_years": "qa_salary_after_3.5_years",   // salary * 3.8
   "person": {
-    "u_name": [user_name, salary, age],
-    "u_age": age,
-    "u_salary_5_years": salary * 4.2
+    "u_name": ["user_name", "salary", "age"],                 // user_name, salary, age
+    "u_age": "age",                                           // user_name, salary, age
+    "u_salary_5_years": "u_salary_5_years",                   // salary * 4.2
   }
 }
 ```
@@ -609,7 +596,7 @@ http://162.55.220.72:5007/user_info_2
 
 **Response:**
 
-```json
+```json5
 {
     "person": {
         "u_age": 25,
@@ -671,14 +658,3 @@ pm.test(`${reqName} Step - 2 - Response matches the expected response`, function
 
 </details>
 </details>
-
-
-<hr>
-
-<style>
-  a:hover {
-    cursor: pointer;
-    color: yellowgreen;
-    text-decoration: none;
-  }
-</style>
