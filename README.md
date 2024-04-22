@@ -138,7 +138,7 @@ pm.test(`${testName} 1 - Check if mode is formdata`, function () {
 
 pm.test(`${testName} 2 - Check formdata values`, function () {
   pm.expect(requestData.formdata).to.not.be.undefined; // Checking that formData exists
-  pm.expect(requestData.formdata).to.not.be.empty;     // Checking that formData is not an empty object
+  pm.expect(requestData.formdata).to.not.be.empty; // Checking that formData is not an empty object
 });
 
 pm.test(`${testName} 3 - Response status code is 200`, function () {
