@@ -6,7 +6,6 @@
 
 ### 📜 Task: EP_1
 
-
 **Method:** `GET` <br>
 **EndPoint:** `/get_method` <br>
 **Request <u>url params</u>:** `name: str, age: int`
@@ -25,7 +24,9 @@ Send GET request with Query Params
 ```http request
 http://162.55.220.72:5007/get_method?name=Mark&age=25
 ```
+
 📋 Query Params
+
 ```text
 ?name=Mark&age=25
 ```
@@ -64,7 +65,6 @@ pm.test(`${reqName} Step - 2 - Response matches the expected response`, function
 <hr>
 
 ### 📜 Task: EP_2
-
 
 **Method:** `POST` <br>
 **EndPoint:** `/user_info_3` <br>
@@ -137,8 +137,8 @@ pm.test(`${testName} 1 - Check if mode is formdata`, function () {
 });
 
 pm.test(`${testName} 2 - Check formdata values`, function () {
-  pm.expect(requestData.formdata).to.not.be.undefined;    // Checking that formData exists
-  pm.expect(requestData.formdata).to.not.be.empty;        // Checking that formData is not an empty object
+  pm.expect(requestData.formdata).to.not.be.undefined; // Checking that formData exists
+  pm.expect(requestData.formdata).to.not.be.empty;     // Checking that formData is not an empty object
 });
 
 pm.test(`${testName} 3 - Response status code is 200`, function () {
@@ -285,7 +285,7 @@ pm.test(`${testName} Step - 2 - Response matches the expected response`, functio
   "qa_salary_after_3.5_years": "qa_salary_after_3.5_years",   // salary * 3.8
   "person": {
     "u_name": ["user_name", "salary", "age"],                 // user_name, salary, age
-    "u_age": "age",                                           // user_name, salary, age
+    "u_age": "age",                                           // age
     "u_salary_5_years": "u_salary_5_years",                   // salary * 4.2
   }
 }
@@ -483,9 +483,12 @@ pm.test(`${reqName} Step - 2 - Response matches the expected response`, function
 **Response:**
 ```json5
 {
-  "name": "name",                               // name
-  "age": "age",                                 // int(age)
-  "salary": ["salary", "salary_1", "salary_2"]  // salary, salary_1 = str(salary * 2), salary_2 = str(salary * 3)
+  "name": "name",   // name
+  "age": "age",     // int(age)
+  "salary": [
+    "salary", 
+    "salary_1", 
+    "salary_2"]     // salary, salary_1 = str(salary * 2), salary_2 = str(salary * 3)
 }
 ```
 
@@ -563,8 +566,8 @@ pm.test(`${reqName} Step - 2 - Response matches the expected response`, function
   "qa_salary_after_1.5_year": "qa_salary_after_1.5_year",     // salary * 3.3
   "qa_salary_after_3.5_years": "qa_salary_after_3.5_years",   // salary * 3.8
   "person": {
-    "u_name": ["user_name", "salary", "age"],                 // user_name, salary, age
-    "u_age": "age",                                           // user_name, salary, age
+    "u_name": ["name", "salary", "age"],                      // name, salary, age
+    "u_age": "age",                                           // age
     "u_salary_5_years": "u_salary_5_years",                   // salary * 4.2
   }
 }
@@ -617,10 +620,10 @@ http://162.55.220.72:5007/user_info_2
 ```js
 const reqName = 'EP_7 - ';
 const reqData = pm.request.body.formdata;     // Getting the request parameters
-const responseData = pm.response.json();  // Getting the JSON data from the response
+const responseData = pm.response.json();      // Getting the JSON data from the response
 
 pm.test(`${reqName} Step - 1 - Response status code is 200`, function () {
-    pm.response.to.have.status(200);    // Checking that the response status code is 200
+    pm.response.to.have.status(200);          // Checking that the response status code is 200
 });
 
 pm.test(`${reqName} Step - 2 - Response matches the expected response`, function () {
