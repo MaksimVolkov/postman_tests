@@ -21,7 +21,7 @@
 
 Send GET request with Query Params
 
-```http request
+```url
 http://162.55.220.72:5007/get_method?name=Mark&age=25
 ```
 
@@ -87,7 +87,7 @@ pm.test(`${reqName} Step - 2 - Response matches the expected response`, function
 <details>
 <summary><a><b>📋 Solution</b></a></summary>
 
-```http request
+```url
 http://162.55.220.72:5007/user_info_3
 ```
 
@@ -213,7 +213,7 @@ pm.test(`${testName} 7 - Checking for required expected keys`, function () {
 <summary><a><b>📋 Solution</b></a></summary>
 
 Send GET request with Query Params
-```http request
+```url
 http://162.55.220.72:5007/object_info_1?name=Mark&weight=45
 ```
 
@@ -295,7 +295,7 @@ pm.test(`${testName} Step - 2 - Response matches the expected response`, functio
 <summary><a><b>📋 Solution</b></a></summary>
 
 Send GET request with Query Params
-```http request
+```url
 http://162.55.220.72:5007/object_info_2?name=Mark&age=25&salary=12500
 ```
 
@@ -402,7 +402,7 @@ pm.test(`${reqName} Step - 2 - Response matches the expected response`, function
 <summary><a><b>📋 Solution</b></a></summary>
 
 Send GET request with Query Params
-```http request
+```url
 http://162.55.220.72:5007/object_info_3?name=Mark&age=25&salary=12500
 ```
 
@@ -496,7 +496,7 @@ pm.test(`${reqName} Step - 2 - Response matches the expected response`, function
 <summary><a><b>📋 Solution</b></a></summary>
 
 Send GET request with Query Params
-```http request
+```url
 http://162.55.220.72:5007/object_info_4?name=Mark&age=25&salary=12500
 ```
 
